@@ -5,19 +5,19 @@ const methodOverride = require('method-override');
 const cors = require('cors');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-const log = require('./server/helper/dev-logger');
+let log = require('./server/helper/dev-logger');
 const router = express.Router();
 let app = express();
-
+let port = process.env.PORT || 3000;
 let mongoUri = process.env.MONGO_URI || 'mongodb://localhost/trello-clone';
 
 console.log('mongoUri', mongoUri);
 
 mongoose.connect(mongoUri).then((db) => {
-  log('db', db);
+  console.log('db', db);
 }).catch(function(err){
-  log('Unabled to connect to mongodb err:', err);
-  log('Check if MongoDB Server is running and available.');
+  console.log('Unabled to connect to mongodb err:', err);
+  console.log('Check if MongoDB Server is running and available.');
 });
 
 app.use(cors());
@@ -58,8 +58,8 @@ router.get('/b/:id', (req, res, next) => {
 app.use('/', router);
 require('./server/api/routes/card.routes')(app);
 require('./server/api/routes/column.routes')(app);
-require('/server/api/routes/board.routes')(app);
+require('./server/api/routes/board.routes')(app);
 
 server.listen(port, () => {
-  log('App running on port ', port);
+  console.log('App running on port ', port);
 });

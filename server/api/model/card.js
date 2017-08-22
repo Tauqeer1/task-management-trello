@@ -4,7 +4,7 @@ let cardSchema = mongoose.Schema({
   title: String,
   columnId: String,
   boardId: String,
-  order: number
+  order: Number
 });
 
 module.exports = mongoose.model('Card', cardSchema);
